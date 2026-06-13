@@ -7,6 +7,7 @@ import { inlineButton, inlineKeyboard, type InlineButton } from "@agntdev/bot-to
 import { dateLabel, shopToday, slotIsPast, slotLabel } from "../config.js";
 import type { BotApp, Ctx, Feature } from "../bot.js";
 import { navRow } from "../menu.js";
+import { OWNER_ONLY } from "../strings.js";
 import type { User } from "../store.js";
 
 const DATE_HORIZON = 14;
@@ -33,7 +34,7 @@ function normalizeTime(raw: string): string | null {
 
 async function denyIfNotOwner(app: BotApp, ctx: Ctx, user: User): Promise<boolean> {
   if (app.isOwner(user)) return false;
-  await app.showMenu(ctx, user, "That's an owner-only action.");
+  await app.showMenu(ctx, user, OWNER_ONLY);
   return true;
 }
 
@@ -53,7 +54,7 @@ async function startSlots(app: BotApp, ctx: Ctx, user: User): Promise<void> {
 async function slotsCallback(app: BotApp, ctx: Ctx, data: string, user: User): Promise<void> {
   await ctx.answerCallbackQuery();
   if (!app.isOwner(user)) {
-    await app.showMenu(ctx, user, "That's an owner-only action.");
+    await app.showMenu(ctx, user, OWNER_ONLY);
     return;
   }
   const parts = data.split(":");

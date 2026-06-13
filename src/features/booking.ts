@@ -9,6 +9,7 @@ import { dateLabel, shopToday, slotIsPast, slotLabel } from "../config.js";
 import type { BotApp, Ctx, Feature } from "../bot.js";
 import { navRow } from "../menu.js";
 import { emitNotification } from "../notifications.js";
+import { SLOT_TAKEN } from "../strings.js";
 import type { TimeSlot, User } from "../store.js";
 
 const HORIZON = 14;
@@ -106,7 +107,7 @@ async function renderSlots(app: BotApp, ctx: Ctx, user: User): Promise<void> {
 async function renderConfirm(app: BotApp, ctx: Ctx, user: User, slotId: number): Promise<void> {
   const slot = app.store.getSlot(slotId);
   if (!slot || app.store.slotTaken(slot.id) || slotIsPast(slot.date, slot.startTime, app.cfg.shopTz)) {
-    await ctx.reply("That slot was just taken 😔");
+    await ctx.reply(SLOT_TAKEN);
     return renderSlots(app, ctx, user);
   }
   const service = app.store.getService(slot.serviceId)?.name ?? "service";
@@ -122,7 +123,7 @@ async function renderConfirm(app: BotApp, ctx: Ctx, user: User, slotId: number):
 async function doConfirm(app: BotApp, ctx: Ctx, user: User, slotId: number): Promise<void> {
   const slot = app.store.getSlot(slotId);
   if (!slot || app.store.slotTaken(slot.id) || slotIsPast(slot.date, slot.startTime, app.cfg.shopTz)) {
-    await ctx.reply("That slot was just taken 😔");
+    await ctx.reply(SLOT_TAKEN);
     return renderSlots(app, ctx, user);
   }
   const appt = app.store.addAppointment(user.tgId, slot.serviceId, slot.barberId, slot.id);
