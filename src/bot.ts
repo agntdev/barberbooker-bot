@@ -21,7 +21,7 @@ import { Store, type User } from "./store.js";
 export interface Session {
   book?: { serviceId?: number; barberId?: number | "any"; date?: string };
   resch?: { apptId?: number; date?: string };
-  slots?: { barberId?: number; serviceId?: number; date?: string };
+  slots?: { barberId?: number; serviceId?: number; date?: string; times?: string[] };
   svcDraft?: { editingId: number | null; name?: string; description?: string; durationMin?: number };
   barberDraft?: { editingId: number | null; name?: string; specialty?: string };
 }
