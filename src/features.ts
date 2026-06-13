@@ -4,9 +4,10 @@
 // installers run) always come last.
 
 import type { Feature } from "./bot.js";
+import { catalogFeature } from "./features/catalog.js";
 
 export const defaultFeatures: Feature[] = [
-  // catalog       → /services + /barbers (installed by its task)
+  catalogFeature, // /services + /barbers (owner CRUD)
   // notifications → owner NotificationService (installed by its task)
   // slots         → /slots predefinition (installed by its task)
   // booking       → /book flow (installed by its task)
