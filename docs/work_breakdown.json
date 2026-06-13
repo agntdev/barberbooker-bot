@@ -1,0 +1,47 @@
+{
+  "phase": "dev",
+  "tasks": [
+    {
+      "key": "core",
+      "kind": "foundation",
+      "title": "Bot skeleton: config, storage schema, update router, conversation state, /start registration with roles, /help, fallbacks (details.md §1, §2, §3, §12)",
+      "depends_on": []
+    },
+    {
+      "key": "catalog",
+      "kind": "feature",
+      "title": "Owner catalog CRUD: /services and /barbers add/edit/soft-delete (details.md §8, §9)",
+      "depends_on": ["core"]
+    },
+    {
+      "key": "notifications",
+      "kind": "feature",
+      "title": "NotificationService: notifications table + owner message templates for booking/cancel/reschedule, OWNER_TG_ID-unset graceful skip (details.md §11)",
+      "depends_on": ["core"]
+    },
+    {
+      "key": "slots",
+      "kind": "feature",
+      "title": "Owner predefines time slots: /slots barber -> service -> date -> times entry, no dynamic generation (details.md §10)",
+      "depends_on": ["catalog"]
+    },
+    {
+      "key": "booking",
+      "kind": "feature",
+      "title": "Client booking flow /book: service -> optional barber -> date -> slot -> race-safe confirm, emits booking notification (details.md §4)",
+      "depends_on": ["catalog", "slots", "notifications"]
+    },
+    {
+      "key": "manage",
+      "kind": "feature",
+      "title": "Appointment management: /my with date/status filters, /cancel and /reschedule emitting notifications (details.md §5, §6, §7)",
+      "depends_on": ["booking", "notifications"]
+    },
+    {
+      "key": "polish",
+      "kind": "integration",
+      "title": "Wire flows end-to-end, strings module, timezone/restart/archival safety, error fallbacks, harness smoke pass (details.md §12, design.md §5)",
+      "depends_on": ["catalog", "slots", "notifications", "booking", "manage"]
+    }
+  ]
+}
