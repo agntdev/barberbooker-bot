@@ -9,6 +9,7 @@ import { dateLabel, shopToday, slotIsPast, slotLabel } from "../config.js";
 import type { BotApp, Ctx, Feature } from "../bot.js";
 import { navRow } from "../menu.js";
 import { emitNotification } from "../notifications.js";
+import { SLOT_TAKEN } from "../strings.js";
 import type { Appointment, TimeSlot, User } from "../store.js";
 
 const HORIZON = 14;
@@ -215,7 +216,7 @@ async function doReschedule(app: BotApp, ctx: Ctx, user: User, newSlotId: number
     app.store.slotTaken(newSlot.id) ||
     slotIsPast(newSlot.date, newSlot.startTime, app.cfg.shopTz)
   ) {
-    await ctx.reply("That slot was just taken 😔");
+    await ctx.reply(SLOT_TAKEN);
     return renderReschSlots(app, ctx, user);
   }
   const oldSlot = app.store.getSlot(appt.timeSlotId);

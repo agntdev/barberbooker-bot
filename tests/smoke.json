@@ -1,0 +1,92 @@
+[
+  {
+    "name": "client /start registration asks for a name then shows the menu",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Welcome! What's your name?" } }] },
+      { "send": { "text": "Sam", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] }
+    ]
+  },
+  {
+    "name": "/help lists commands",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Sam", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/help", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] }
+    ]
+  },
+  {
+    "name": "/book with an empty catalog explains there are no services",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Sam", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/book", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage", "payload": { "text": "No services available yet." } }] }
+    ]
+  },
+  {
+    "name": "/my with no appointments",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Sam", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/my", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] }
+    ]
+  },
+  {
+    "name": "/cancel with no upcoming appointments",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Sam", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/cancel", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage", "payload": { "text": "You have no upcoming appointments." } }] }
+    ]
+  },
+  {
+    "name": "/reschedule with no upcoming appointments",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Sam", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/reschedule", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage", "payload": { "text": "You have no upcoming appointments." } }] }
+    ]
+  },
+  {
+    "name": "owner adds a service through the text-step flow",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Boss", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/services", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Services:" } }] },
+      { "send": { "callback": "svc:add", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Service name?" } }] },
+      { "send": { "text": "Haircut", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Description?" } }] },
+      { "send": { "text": "Classic cut", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "30", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Services:" } }] }
+    ]
+  },
+  {
+    "name": "owner adds a barber through the text-step flow",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Boss", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/barbers", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Barbers:" } }] },
+      { "send": { "callback": "barber:add", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Barber name?" } }] },
+      { "send": { "text": "Alex", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Specialty? (e.g. fades, beard trims)" } }] },
+      { "send": { "text": "fades", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Barbers:" } }] }
+    ]
+  },
+  {
+    "name": "owner opens slot predefinition after adding a barber",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Boss", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/barbers", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "callback": "barber:add", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Alex", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "fades", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/slots", "chatId": 9000, "userId": 9000 }, "expect": [{ "method": "sendMessage", "payload": { "text": "Predefine slots — choose a barber:" } }] }
+    ]
+  },
+  {
+    "name": "owner-only guard: a client is refused /services",
+    "steps": [
+      { "send": { "text": "/start", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "Sam", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage" }] },
+      { "send": { "text": "/services", "chatId": 5, "userId": 5 }, "expect": [{ "method": "sendMessage", "payload": { "text": "That's an owner-only action." } }] }
+    ]
+  }
+]

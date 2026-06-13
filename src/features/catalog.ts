@@ -7,11 +7,12 @@
 import { inlineButton, inlineKeyboard, type InlineButton } from "@agntdev/bot-toolkit";
 import type { BotApp, Ctx, Feature } from "../bot.js";
 import { navRow } from "../menu.js";
+import { OWNER_ONLY } from "../strings.js";
 import type { User } from "../store.js";
 
 async function denyIfNotOwner(app: BotApp, ctx: Ctx, user: User): Promise<boolean> {
   if (app.isOwner(user)) return false;
-  await app.showMenu(ctx, user, "That's an owner-only action.");
+  await app.showMenu(ctx, user, OWNER_ONLY);
   return true;
 }
 
@@ -31,7 +32,7 @@ async function showServices(app: BotApp, ctx: Ctx, user: User): Promise<void> {
 async function svcCallback(app: BotApp, ctx: Ctx, data: string, user: User): Promise<void> {
   await ctx.answerCallbackQuery();
   if (!app.isOwner(user)) {
-    await app.showMenu(ctx, user, "That's an owner-only action.");
+    await app.showMenu(ctx, user, OWNER_ONLY);
     return;
   }
   const [, action, idStr, sub] = data.split(":");
@@ -137,7 +138,7 @@ async function showBarbers(app: BotApp, ctx: Ctx, user: User): Promise<void> {
 async function barberCallback(app: BotApp, ctx: Ctx, data: string, user: User): Promise<void> {
   await ctx.answerCallbackQuery();
   if (!app.isOwner(user)) {
-    await app.showMenu(ctx, user, "That's an owner-only action.");
+    await app.showMenu(ctx, user, OWNER_ONLY);
     return;
   }
   const [, action, idStr, sub] = data.split(":");

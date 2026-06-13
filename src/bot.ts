@@ -13,6 +13,7 @@ import type { Bot } from "grammy";
 import type { BotConfig } from "./config.js";
 import { helpText, mainMenu } from "./menu.js";
 import { Store, type User } from "./store.js";
+import { FALLBACK_HINT, GENERIC_ERROR, GREETING_ASK_NAME, MENU_TITLE, NAME_INVALID } from "./strings.js";
 
 /** Per-chat session scratch for multi-step flows. The authoritative state is
  *  `users.conversation_state` in the store (details.md §1); the session only
@@ -67,7 +68,7 @@ export function buildBot(token: string, store: Store, cfg: BotConfig, features: 
     isOwner: (user) => cfg.ownerTgId !== null && user.tgId === cfg.ownerTgId,
     showMenu: async (ctx, user, text) => {
       user.state = "menu";
-      await ctx.reply(text ?? "Main menu:", { reply_markup: mainMenu(user.role) });
+      await ctx.reply(text ?? MENU_TITLE, { reply_markup: mainMenu(user.role) });
     },
   };
 
@@ -81,7 +82,7 @@ export function buildBot(token: string, store: Store, cfg: BotConfig, features: 
       const tgId = ctx.from?.id;
       if (tgId) store.upsertUser(tgId).state = "menu";
       try {
-        await ctx.reply("Something went wrong, please try again.");
+        await ctx.reply(GENERIC_ERROR);
       } catch {
         /* replying itself failed — nothing left to do */
       }
@@ -94,7 +95,7 @@ export function buildBot(token: string, store: Store, cfg: BotConfig, features: 
     if (app.isOwner(user)) user.role = "owner";
     if (!user.name) {
       user.state = "reg:name";
-      await ctx.reply("Welcome! What's your name?");
+      await ctx.reply(GREETING_ASK_NAME);
       return;
     }
     user.state = "menu";
@@ -149,7 +150,7 @@ export function buildBot(token: string, store: Store, cfg: BotConfig, features: 
 
     if (user.state === "reg:name") {
       if (text.length < 1 || text.length > 64) {
-        await ctx.reply("Please send a name (1–64 characters).");
+        await ctx.reply(NAME_INVALID);
         return;
       }
       user.name = text;
@@ -166,9 +167,7 @@ export function buildBot(token: string, store: Store, cfg: BotConfig, features: 
     }
 
     // Unknown command / stray text (details.md §12).
-    await ctx.reply("Sorry, I didn't get that. /help shows what I can do.", {
-      reply_markup: mainMenu(user.role),
-    });
+    await ctx.reply(FALLBACK_HINT, { reply_markup: mainMenu(user.role) });
   });
 
   return bot;
