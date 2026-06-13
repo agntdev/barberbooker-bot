@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test:harness": "npm run build && AGNTDEV_BOT_MODULE=$PWD/dist/harness-entry.js AGNTDEV_SPECS_FILE=$PWD/tests/smoke.json AGNTDEV_COMMANDS_FILE=$PWD/tests/commands.json node node_modules/@agntdev/bot-toolkit/dist/harness/cli.js"
+    "test:harness": "npm run build && AGNTDEV_BOT_MODULE=$PWD/dist/harness-entry.js AGNTDEV_SPECS_FILE=$PWD/tests/specs.json AGNTDEV_COMMANDS_FILE=$PWD/tests/commands.json node node_modules/@agntdev/bot-toolkit/dist/harness/cli.js"
   },
   "dependencies": {
     "@agntdev/bot-toolkit": "file:./.agntdev-bot-toolkit.tgz",
