@@ -6,10 +6,12 @@
 import type { Feature } from "./bot.js";
 import { catalogFeature } from "./features/catalog.js";
 import { slotsFeature } from "./features/slots.js";
+import { bookingFeature } from "./features/booking.js";
 
 export const defaultFeatures: Feature[] = [
   catalogFeature, // /services + /barbers (owner CRUD)
   slotsFeature, // /slots (owner predefines time slots)
+  bookingFeature, // /book (client booking flow)
   // notifications → owner NotificationService (installed by its task)
   // slots         → /slots predefinition (installed by its task)
   // booking       → /book flow (installed by its task)
